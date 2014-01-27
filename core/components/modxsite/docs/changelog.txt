@@ -1,3 +1,10 @@
+modxSite-1.1.1
+=============================================================
+1.  Added auto-installing packages:
+        - Console
+        - Ace
+
+
 modxSite-1.1.0
 =============================================================
 1.  Added method modxsite::loadProcessor()

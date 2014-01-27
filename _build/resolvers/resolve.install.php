@@ -19,6 +19,8 @@ if ($object->xpdo) {
                 $packages = array(
                     'phpTemplates',
                     'modxSmarty',
+                    'Console',
+                    'Ace',
                 );
                 
                 $modx->log(modX::LOG_LEVEL_INFO, "Trying to install packages: ". implode(", ", $packages). "<br />\n
