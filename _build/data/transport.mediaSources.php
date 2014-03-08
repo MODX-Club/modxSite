@@ -10,8 +10,20 @@ $params = array(
         "desc" => "prop_file.basePath_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "core/components/modxsite/templates/",
+        "value" => "[[++core_path]]components/modxsite/templates/",
         "lexicon" => "core:source",
+        "basePathRelative"
+    ),
+    'basePathRelative' => 
+    array (
+        'name' => 'basePathRelative',
+        'desc' => 'prop_file.basePathRelative_desc',
+        'type' => 'combo-boolean',
+        'options' => 
+            array (
+            ),
+        'value' => false,
+        'lexicon' => 'core:source',
     ),
     "baseUrl" => Array
     (
@@ -19,7 +31,7 @@ $params = array(
         "desc" => "prop_file.baseUrl_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "core/components/modxsite/templates/",
+        "value" => "",
         "lexicon" => "core:source",
     )
 );
@@ -42,8 +54,19 @@ $params = array(
         "desc" => "prop_file.basePath_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/components/modxsite/templates/",
+        "value" => "[[++assets_path]]components/modxsite/templates/",
         "lexicon" => "core:source",
+    ),
+    'basePathRelative' => 
+    array (
+        'name' => 'basePathRelative',
+        'desc' => 'prop_file.basePathRelative_desc',
+        'type' => 'combo-boolean',
+        'options' => 
+            array (
+            ),
+        'value' => false,
+        'lexicon' => 'core:source',
     ),
     "baseUrl" => Array
     (
@@ -51,7 +74,7 @@ $params = array(
         "desc" => "prop_file.baseUrl_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/components/modxsite/templates/",
+        "value" => "[[++assets_url]]components/modxsite/templates/",
         "lexicon" => "core:source",
     )
 );
@@ -74,8 +97,19 @@ $params = array(
         "desc" => "prop_file.basePath_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/images/",
+        "value" => "[[++assets_path]]images/",
         "lexicon" => "core:source",
+    ),
+    'basePathRelative' => 
+    array (
+        'name' => 'basePathRelative',
+        'desc' => 'prop_file.basePathRelative_desc',
+        'type' => 'combo-boolean',
+        'options' => 
+            array (
+            ),
+        'value' => false,
+        'lexicon' => 'core:source',
     ),
     "baseUrl" => Array
     (
@@ -83,7 +117,7 @@ $params = array(
         "desc" => "prop_file.baseUrl_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/images/",
+        "value" => "[[++assets_url]]images/",
         "lexicon" => "core:source",
     )
 );
@@ -106,8 +140,19 @@ $params = array(
         "desc" => "prop_file.basePath_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/files/",
+        "value" => "[[++assets_path]]files/",
         "lexicon" => "core:source",
+    ),
+    'basePathRelative' => 
+    array (
+        'name' => 'basePathRelative',
+        'desc' => 'prop_file.basePathRelative_desc',
+        'type' => 'combo-boolean',
+        'options' => 
+            array (
+            ),
+        'value' => false,
+        'lexicon' => 'core:source',
     ),
     "baseUrl" => Array
     (
@@ -115,7 +160,7 @@ $params = array(
         "desc" => "prop_file.baseUrl_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "assets/files/",
+        "value" => "[[++assets_url]]files/",
         "lexicon" => "core:source",
     )
 );
@@ -138,8 +183,19 @@ $params = array(
         "desc" => "prop_file.basePath_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "core/components/modxsite/controllers/",
+        "value" => "[[++core_path]]components/modxsite/controllers/",
         "lexicon" => "core:source",
+    ),
+    'basePathRelative' => 
+    array (
+        'name' => 'basePathRelative',
+        'desc' => 'prop_file.basePathRelative_desc',
+        'type' => 'combo-boolean',
+        'options' => 
+            array (
+            ),
+        'value' => false,
+        'lexicon' => 'core:source',
     ),
     "baseUrl" => Array
     (
@@ -147,7 +203,7 @@ $params = array(
         "desc" => "prop_file.baseUrl_desc",
         "type" => "textfield",
         "options" => Array(),
-        "value" => "core/components/modxsite/controllers/",
+        "value" => "",
         "lexicon" => "core:source",
     )
 );
