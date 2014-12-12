@@ -157,6 +157,8 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             'message' => $this->getMessage(),
             'count'   => count($array),
             'total'   => $count,
+            'limit'   => (int)$this->getProperty('limit', 0),
+            'page'   => (int)$this->getProperty('page', 0),
             'object'  => $array,
         );
     }
