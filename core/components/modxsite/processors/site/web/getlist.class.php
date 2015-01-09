@@ -79,7 +79,6 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
         if(!$c = $this->getCount($c)){
             return $data;
         }
-        $c = $this->prepareQueryAfterCount($c);
 
         $this->setSelection($c);
         
@@ -94,26 +93,29 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             $sortKey = $this->modx->getSelectColumns($sortClassKey,$this->getProperty('sortAlias',$sortClassKey),'',array($this->getProperty('sort')));
         }
         
-        $query = clone $c;
-        $query = $this->prepareCountQuery($query);
-        if(!$this->total = $this->countTotal($this->classKey,$query)){
+        $c = $this->prepareCountQuery($c);
+        if(!$this->total = $this->countTotal($this->classKey,$c)){
             return false;
         }
         
+        $c = $this->prepareQueryAfterCount($c);
+        
+        
         if($sortKey){
             $c->sortby($sortKey,$this->getProperty('dir'));
-            $query->sortby($sortKey,$this->getProperty('dir'));
         }
+        
+        $query = clone $c;
         
         $limit = intval($this->getProperty('limit'));
         $start = intval($this->getProperty('start'));
         
-        if ($limit > 0) {
+        if ($limit || $start) {
             $query->limit($limit,$start);
         }
         
         $query = $this->prepareUniqObjectsQuery($query);
-        if($query->prepare() && $query->stmt->execute() && $rows = $row = $query->stmt->fetchAll(PDO::FETCH_ASSOC)){
+        if($query->prepare() && $query->stmt->execute() && $rows = $query->stmt->fetchAll(PDO::FETCH_ASSOC)){
             $IDs = array();
             foreach($rows as $row){
                 $IDs[] = $row['id'];
@@ -125,6 +127,12 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             ));
         }
         else{
+            
+            if($query->stmt AND $query->stmt->errorCode() !== "00000"){
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, __CLASS__);
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, print_r($query->stmt->errorInfo(), true));
+            }
+            
             return false;
         }     
         
@@ -147,8 +155,14 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
     }
 
     protected function prepareUniqObjectsQuery(xPDOQuery & $query){
-        if (isset($query->query['columns'])) $query->query['columns'] = array();
-        $query->select(array ("DISTINCT {$this->classKey}.id"));
+        # if (isset($query->query['columns'])) $query->query['columns'] = array();
+        # $query->select(array ("DISTINCT {$this->classKey}.id"));
+        $query->select(array ("{$this->classKey}.id"));
+        $query->distinct();
+        
+        # $query->prepare();
+        # print $query->toSQL();
+        # exit;
         
         return $query;
     } 
@@ -238,8 +252,17 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             }
             $this->sources[$id] = & $source;
         }
+         
         
-        $result = $this->sources[$id]->$callback($params);
+        switch($callback){
+            case 'getBaseUrl':
+                if(!is_string($params)){
+                    $params = '';
+                }
+                break;
+        }
+        
+        $result = $this->sources[$id]->$callback($params); 
         
         return $result;
     }
