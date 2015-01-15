@@ -150,19 +150,50 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
     /*
      * Count total results
      */
-    protected function countTotal($className, xPDOQuery & $query){
-        return $this->modx->getCount($this->classKey,$query);
+    protected function countTotal($className, xPDOQuery & $criteria){
+        $count = 0; 
+        
+        $query = clone($criteria);
+        
+        $stmt = null;
+        $expr = '*';
+        if ($pk = $this->modx->getPK($className)) {
+            if (!is_array($pk)) {
+                $pk = array($pk);
+            }
+            $expr = $this->modx->getSelectColumns($className, $query->getAlias(), '', $pk);
+        } 
+        if (isset($query->query['columns'])) {
+            $query->query['columns'] = array();
+        }
+        if (!empty($query->query['groupby']) || !empty($query->query['having'])) {
+            $query->select($expr);
+            if ($query->prepare()) {
+                $countQuery = new xPDOCriteria($this->modx, "SELECT COUNT(*) FROM ({$query->toSQL(false)}) cq", $query->bindings, $query->cacheFlag);
+                $stmt = $countQuery->prepare();
+            }
+        } else {
+            $query->select(array("COUNT(DISTINCT {$expr})"));
+            $stmt = $query->prepare();
+        }
+        if ($stmt) {
+            if ($stmt->execute()) {
+                $count = intval($stmt->fetchColumn());
+                
+            }
+            else if($stmt->errorCode() !== "00000"){
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, __CLASS__);
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, print_r($stmt->errorInfo(), true));
+            }
+        } 
+        
+        return $count;
     }
 
     protected function prepareUniqObjectsQuery(xPDOQuery & $query){
-        # if (isset($query->query['columns'])) $query->query['columns'] = array();
-        # $query->select(array ("DISTINCT {$this->classKey}.id"));
-        $query->select(array ("{$this->classKey}.id"));
-        $query->distinct();
         
-        # $query->prepare();
-        # print $query->toSQL();
-        # exit;
+        $query->select(array ("{$this->classKey}.id"));
+        $query->distinct(); 
         
         return $query;
     } 
