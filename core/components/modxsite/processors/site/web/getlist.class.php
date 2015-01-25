@@ -38,7 +38,16 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             $this->setProperty('start', ($page-1) * $limit);
         }
         
-        return true;
+        if(
+            $sort = $this->getProperty('sort')
+            AND mb_strpos($str, ".", 0,  'utf-8') === false
+            AND $fields = $this->modx->getFields($this->classKey)
+            AND array_key_exists($sort, $fields)
+        ){ 
+            $this->setProperty('sort', "{$this->classKey}.{$sort}");
+        }
+        
+        return !$this->hasErrors();
     }
 
 
