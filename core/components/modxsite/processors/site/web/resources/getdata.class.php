@@ -111,8 +111,10 @@ class modSiteWebResourcesGetdataProcessor extends modSiteWebGetdataProcessor{
         foreach($list as & $l){  
             
             // Картинка
-            $l['image'] = '';
-            if(!empty($l['tvs']['image']['value'])){
+            if(
+                empty($l['image'])
+                AND !empty($l['tvs']['image']['value'])
+            ){
                 $l['image'] = $images_base_url . $l['tvs']['image']['value'];
             }
             else{
