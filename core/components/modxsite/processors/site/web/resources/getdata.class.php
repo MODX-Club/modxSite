@@ -95,18 +95,7 @@ class modSiteWebResourcesGetdataProcessor extends modSiteWebGetdataProcessor{
             $properties = $this->getProperties();
         }
         
-        switch($this->getProperty('image_url_schema')){
-            case 'base':
-                $images_base_url = $this->getSourcePath();
-                break;
-                
-            case 'full':
-                $images_base_url = $this->modx->getOption('site_url');
-                $images_base_url .= preg_replace("/^\/*/", "", $this->getSourcePath());
-                break;
-                
-            default: $images_base_url = '';
-        }
+        $images_base_url = $this->getImageBaseUrl();
         
         foreach($list as & $l){  
             
@@ -160,7 +149,25 @@ class modSiteWebResourcesGetdataProcessor extends modSiteWebGetdataProcessor{
             }
         }
         return $url;
-    }    
+    }
+    
+        
+    protected function getImageBaseUrl(){
+        switch($this->getProperty('image_url_schema')){
+            case 'base':
+                $images_base_url = $this->getSourcePath();
+                break;
+                
+            case 'full':
+                $images_base_url = $this->modx->getOption('site_url');
+                $images_base_url .= preg_replace("/^\/*/", "", $this->getSourcePath());
+                break;
+                
+            default: $images_base_url = '';
+        }
+        
+        return $images_base_url;
+    } 
     
 }
 
