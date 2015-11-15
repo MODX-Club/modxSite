@@ -73,6 +73,8 @@ class modSiteWebResourcesGetdataProcessor extends modSiteWebGetdataProcessor{
             $c->select(array(
                 "tv.id as tv_id",
                 'tv.name as tv_name',
+                "tv.caption as tv_caption",
+                "tv.category as tv_category",
                 "TemplateVarResources.id as tv_value_id",
                 "TemplateVarResources.value as tv_value",
             ));
