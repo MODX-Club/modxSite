@@ -1,5 +1,8 @@
 <?php 
 
+$pkgName = 'modxSite';
+$pkgNameLower = strtolower($pkgName);
+
 if ($object->xpdo) {
     $modx =& $object->xpdo;
     // $modelPath = $modx->getOption($pkgName.'.core_path',null,$modx->getOption('core_path').'components/'.$pkgName.'/').'model/';
@@ -9,6 +12,18 @@ if ($object->xpdo) {
         case xPDOTransport::ACTION_UPGRADE:
             
             if ($modx instanceof modX) {
+                
+                $modx->addExtensionPackage($pkgNameLower, "[[++core_path]]components/{$pkgNameLower}/model/", array(
+                    # 'serviceName' => $pkgNameLower,
+                    # 'serviceClass' => $pkgNameLower,
+                ));
+                
+                
+                $modx->addPackage($pkgNameLower, MODX_CORE_PATH . "components/{$pkgNameLower}/model/", array(
+                  # 'serviceName' => $pkgNameLower,
+                  # 'serviceClass' => $pkgNameLower,
+                ));
+                
                 if(!$modx->loadClass('transport.modTransportPackage')){
                     return $modx->log(modX::LOG_LEVEL_ERROR, "Could not load modTransportPackage class");
                 }
@@ -215,7 +230,13 @@ if ($object->xpdo) {
                     $modx->log($msg['level'], $msg['msg']);
                 }
             }
-            break; 
+            break;
+            
+        case xPDOTransport::ACTION_UNINSTALL:
+            if ($modx instanceof modX) {
+                $modx->removeExtensionPackage($pkgNameLower);
+            }
+            break;
     }
 }
 return true;
