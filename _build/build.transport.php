@@ -10,7 +10,7 @@ define('NAMESPACE_NAME', PKG_NAME_LOWER);
 define('PKG_PATH', PKG_NAME_LOWER);
 define('PKG_CATEGORY', PKG_NAME);
 
-$pkg_version = '1.7.0';
+$pkg_version = '1.7.1';
 $pkg_release = 'beta';
 define('PKG_VERSION', $pkg_version); 
 define('PKG_RELEASE', $pkg_release); 
@@ -44,6 +44,9 @@ $builder = new modPackageBuilder($modx);
  */
 $builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
+$builder->setPackageAttributes(array(
+    xPDOTransport::PREEXISTING_MODE => '-1',    // Do not archive existsting files
+));
 
 /*
  * load lexicon
