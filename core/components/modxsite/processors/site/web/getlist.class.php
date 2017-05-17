@@ -21,6 +21,7 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
             'getPage'           => false,
             'getPageParamsSet'  => "getPage",   // Имя набора параметров для getPage
             "format"            => "",          // json will return correct array
+            "count"             => true,
         ));
 
 
@@ -185,6 +186,11 @@ class modSiteWebGetlistProcessor extends modObjectGetListProcessor{
      * Count total results
      */
     protected function countTotal($className, xPDOQuery & $criteria){
+
+        if(!$this->getProperty("count")){
+            return 1;
+        }
+
         $count = 0; 
         
         $query = clone($criteria);
