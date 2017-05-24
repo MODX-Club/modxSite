@@ -99,7 +99,11 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
                 }
                 
                 else{
-                    $this->object->fromArray($this->getProperties());
+                    $properties = $this->getProperties();
+
+                    unset($properties['save_object'], $properties['new_object']);
+
+                    $this->object->fromArray($properties);
                     
                     /* Run the beforeSave method and allow stoppage */
                     $canSave = $this->beforeSave();
