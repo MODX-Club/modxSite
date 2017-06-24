@@ -315,7 +315,13 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
     }
     
     public function cleanup() {
-        return $this->success('', $this->object);
+        $object = & $this->object;
+
+        unset($object->_fields['pub_action']);
+        unset($object->_fields['save_object']);
+        unset($object->_fields['new_object']);
+
+        return $this->success('', $object);
     }
     
     
