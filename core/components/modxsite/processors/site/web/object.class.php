@@ -219,7 +219,22 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
      * Override in your derivative class to do functionality before save() is run
      * @return boolean
      */
-    public function beforeSave() { return !$this->hasErrors(); }
+    public function beforeSave() {
+
+        $object = & $this->object;
+
+        foreach($object->_fields as $field => $value){
+            if(
+                $object->isDirty($field)
+                AND $object->$field
+                AND is_scalar($object->$field)
+            ){
+                $object->$field = trim($object->$field);
+            }
+        }
+
+        return !$this->hasErrors(); 
+    }
 
     /**
      * Override in your derivative class to do functionality after save() is run
