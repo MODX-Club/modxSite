@@ -239,7 +239,10 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
      * Override in your derivative class to do functionality after save() is run
      * @return boolean
      */
-    public function afterSave() { return true; }
+    public function afterSave() { 
+        $this->object = $this->modx->getObject($this->classKey, $this->object->id);
+        return true; 
+    }
  
 
 
