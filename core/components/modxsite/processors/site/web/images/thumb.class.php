@@ -32,26 +32,15 @@ class modSiteWebImagesThumbProcessor extends modSystemPhpThumbProcessor{
     
     public function process(){
         
-        if(!$types = (array)$this->getProperty('types')){
-            
-            return $this->failure("Не были получены типы изображений");
-        }
-        
-        else if(!$type = $this->getProperty('type')){
-            
-            return $this->failure("Не указан тип изображения");
-        }
-        
-        else if(!array_key_exists($type, $types)){
-            
-            return $this->failure("Указан неверный тип изображения");
-        }
-        else{
+        if(
+            $types = (array)$this->getProperty('types')
+            AND $type = $this->getProperty('type')
+            AND array_key_exists($type, $types)
+        ){
             $options = $types[$type];
             parse_str($options, $ptOptions);
             $this->setProperties($ptOptions);
         }
-        
         
         if(!$src = $this->getProperty('src')){
             
