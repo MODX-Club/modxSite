@@ -223,12 +223,13 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
 
         $object = & $this->object;
 
-        foreach($object->_dirty as $field => $value){
+        foreach($object->_dirty as $field => $v){
+            $value = $object->get($field);
             if(
-                $object->$field
-                AND is_scalar($object->$field)
+                $value
+                AND is_scalar($value)
             ){
-                $object->set($field, trim($object->get($field)));
+                $object->set($field, trim($value));
             }
         }
 
