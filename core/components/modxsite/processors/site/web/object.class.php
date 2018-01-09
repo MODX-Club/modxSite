@@ -94,16 +94,12 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
                 
                 /* Run the beforeSet method before setting the fields, and allow stoppage */
                 $beforeSet = $this->beforeSet();
+                
                 if ($beforeSet !== true) {
                     $o = $this->failure($beforeSet);
                 }
-                
                 else{
-                    $properties = $this->getProperties();
-
-                    unset($properties['save_object'], $properties['new_object']);
-
-                    $this->object->fromArray($properties);
+                    $this->object->fromArray($this->getProperties());
                     
                     /* Run the beforeSave method and allow stoppage */
                     $canSave = $this->beforeSave();
@@ -219,31 +215,13 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
      * Override in your derivative class to do functionality before save() is run
      * @return boolean
      */
-    public function beforeSave() {
-
-        $object = & $this->object;
-
-        foreach($object->_dirty as $field => $v){
-            $value = $object->get($field);
-            if(
-                $value
-                AND is_scalar($value)
-            ){
-                $object->set($field, trim($value));
-            }
-        }
-
-        return !$this->hasErrors(); 
-    }
+    public function beforeSave() { return !$this->hasErrors(); }
 
     /**
      * Override in your derivative class to do functionality after save() is run
      * @return boolean
      */
-    public function afterSave() { 
-        $this->object = $this->modx->getObject($this->classKey, $this->object->id);
-        return true; 
-    }
+    public function afterSave() { return true; }
  
 
 
@@ -333,11 +311,13 @@ class modSiteWebObjectProcessor extends modObjectProcessor{
     }
     
     public function cleanup() {
+
         $object = & $this->object;
 
         unset($object->_fields['pub_action']);
         unset($object->_fields['save_object']);
         unset($object->_fields['new_object']);
+
 
         return $this->success('', $object);
     }
